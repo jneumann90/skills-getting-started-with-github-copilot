@@ -56,12 +56,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function validateEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
   // Handle form submission
   signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const activity = document.getElementById("activity").value;
+    const emailInput = document.getElementById("email");
+    const activityInput = document.getElementById("activity");
+    const email = emailInput.value.trim();
+    const activity = activityInput.value;
+
+    emailInput.classList.remove("invalid-input");
+    activityInput.classList.remove("invalid-input");
+
+    if (!signupForm.checkValidity()) {
+      signupForm.reportValidity();
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      messageDiv.textContent = "Please enter a valid email address.";
+      messageDiv.className = "error";
+      messageDiv.classList.remove("hidden");
+      emailInput.classList.add("invalid-input");
+      return;
+    }
+
+    if (!activity) {
+      messageDiv.textContent = "Please select an activity before signing up.";
+      messageDiv.className = "error";
+      messageDiv.classList.remove("hidden");
+      activityInput.classList.add("invalid-input");
+      return;
+    }
 
     try {
       const response = await fetch(

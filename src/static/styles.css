@@ -148,6 +148,11 @@ section h3 {
   font-size: 16px;
 }
 
+.invalid-input {
+  border-color: #c62828;
+  background-color: #fff1f0;
+}
+
 button {
   background-color: #1a237e;
   color: white;
